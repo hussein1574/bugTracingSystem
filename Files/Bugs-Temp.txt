@@ -1,0 +1,1 @@
+UserId(Tester):BugId:ProjectName:status:BugName:BugType:Priority:ImageFileName:BugDetails:UserId(Dev)
