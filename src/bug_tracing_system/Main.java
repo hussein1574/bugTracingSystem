@@ -5,7 +5,7 @@
  */
 package bug_tracing_system;
 
-import bug_tracing_system.Login.login;
+import bug_tracing_system.Login.Login;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new login().setVisible(true);
+        new Login().setVisible(true);
     }
     
 }

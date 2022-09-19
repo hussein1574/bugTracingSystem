@@ -11,60 +11,50 @@ package bug_tracing_system;
  */
 public class Users {
     
-    private int ID;
-    private String Username;
-    private String Password;
-    private String Role;
-    private int NoOfBugs;
-    private String Name;
+    private final int ID;
+    private final String Username;
+    private final String Password;
+    private final String Role;
+    private final int NoOfBugs;
+    private final String Name;
+
+    public Users(int ID, String Username, String Password, String Role, int NoOfBugs, String Name) {
+        this.ID = ID;
+        this.Username = Username;
+        this.Password = Password;
+        this.Role = Role;
+        this.NoOfBugs = NoOfBugs;
+        this.Name = Name;
+    }
+    
 
     public String getRole() {
         return Role;
     }
 
-    public void setRole(String Role) {
-        this.Role = Role;
-    }
-
-
     public int getID() {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
 
     public String getUsername() {
         return Username;
     }
 
-    public void setUsername(String Username) {
-        this.Username = Username;
-    }
 
     public String getPassword() {
         return Password;
     }
 
-    public void setPassword(String Password) {
-        this.Password = Password;
-    }
 
     public int getNoOfBugs() {
         return NoOfBugs;
     }
 
-    public void setNoOfBugs(int NoOfBugs) {
-        this.NoOfBugs = NoOfBugs;
-    }
 
     public String getName() {
         return Name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
-    }
     
 }

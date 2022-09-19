@@ -6,22 +6,19 @@
 package bug_tracing_system.Developer;
 
 import bug_tracing_system.DataBase;
-import bug_tracing_system.Information;
+import bug_tracing_system.Name;
+import bug_tracing_system.Data;
 import bug_tracing_system.Users;
-import bug_tracing_system.data;
-import bug_tracing_system.Login.login;
-import bug_tracing_system.Tester.TesterView;
+import bug_tracing_system.bugData;
+import bug_tracing_system.Login.Login;
 import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,77 +29,70 @@ import javax.swing.*;
  *
  * @author Jimmy
  */
-public class Developer extends javax.swing.JFrame implements Information{
+public class Developer extends javax.swing.JFrame implements Name, Data{
     static int xPress = 0;
     static int yPress = 0;
-    static Users myuser = new Users();
-    ArrayList<data> arrLst = new ArrayList<>();
+    private String projectName;
+    private int bugId;
+    private String bugName ;
+    private String bugType ;
+    private String priorty;
+    private String statue;
+    private String developerName;
+    private String bugDes;
+    private ImageIcon imageIcon;
+    static Users myuser;
+    BugUpdater updateBug;
+    ArrayList<bugData> arrLst = new ArrayList<>();
     /**
      * Creates new form Tester
+     * @param user
      */
-    public Developer(Users u) {
+    public Developer(Users user) {
         initComponents();
-        myuser = u;
-        this.jLabel2.setText(u.getName());
+        myuser = user;
+        this.userName.setText(user.getName());
         DefaultTableModel model;
-        model = (DefaultTableModel) Table1.getModel();
-        Timer t = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
+        model = (DefaultTableModel) bugsTable.getModel();
+        Timer t = new Timer(1000, (ActionEvent ae) -> {
+            try {
                 model.setRowCount(0);
-                GetData();
-                data D = new data();
+                getData();
+                bugData bug;
                 for (int i = 0; i < arrLst.size(); i++) {
-                    D = arrLst.get(i);
-                    String Data[] = {D.getProjectName(), Integer.toString(D.getBugId()), D.getBugName(), D.getBugType(), D.getPriorty(), D.getStatue(), GetName(D.getTesterId())}; //data added in table
+                    bug = arrLst.get(i);
+                    String Data[] = {bug.getProjectName(), Integer.toString(bug.getBugId()), bug.getBugName(), bug.getBugType(), bug.getPriorty(), bug.getStatue(), getName(bug.getTesterId())}; //data added in table
                     model.addRow(Data);
                 }
                 arrLst = new ArrayList<>();
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(Developer.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         t.start();
     }
+    
     @Override
-    public String GetName(int Testerid)
+    public String getName(int testerId) throws SQLException, ClassNotFoundException
     {
-          try{
         DataBase db = new DataBase();           
-            String sql = "SELECT FName, LName FROM accounts WHERE UserId="+ Testerid;
-            ResultSet rs = db.Select_Query(sql);
+            String sql = "SELECT FName, LName FROM accounts WHERE UserId="+ testerId;
+            ResultSet rs = db.selectQuery(sql);
             while(rs.next())
-            {
                return rs.getString("FName") + " " + rs.getString("LName");
-            } 
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(Developer.class.getName()).log(Level.SEVERE, null, ex);
-        }  
         return "NOT FOUND";  
     }
     @Override
-    public void GetData() {
-        data D = new data();
-          try{
-        DataBase db = new DataBase();           
+    public void getData() throws SQLException, ClassNotFoundException {
+        
+            DataBase db = new DataBase();           
             String sql = "SELECT b.*, p.* FROM bugs as b, projects as p WHERE p.ProjectId=b.ProjectId and b.DevId="+ myuser.getID();
-            ResultSet rs = db.Select_Query(sql);
+            ResultSet rs = db.selectQuery(sql);
             while(rs.next())
             {
-               D = new data();
-               D.setTesterId(rs.getInt(8));
-               D.setBugId(rs.getInt(1));         
-               D.setStatue(rs.getString(2));
-               D.setBugName(rs.getString(3));
-               D.setBugType(rs.getString(4));
-               D.setPriorty(rs.getString(5));
-               D.setImageFileName(rs.getString(6));
-               D.setBugDetails(rs.getString(7));
-               D.setDeveloperId(rs.getInt(9)); 
-               D.setProjectName(rs.getString(12));
-               arrLst.add(D);
+              bugData bug = new bugData(rs.getString(12),rs.getInt(8),rs.getInt(1), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(2), rs.getString(7), rs.getInt(9), rs.getString(6)); 
+               arrLst.add(bug);
             } 
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(Developer.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -114,15 +104,15 @@ public class Developer extends javax.swing.JFrame implements Information{
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        userName = new javax.swing.JLabel();
+        logoutBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        closeBtn = new javax.swing.JButton();
+        minimizeBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Table1 = new javax.swing.JTable();
+        bugsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -143,19 +133,19 @@ public class Developer extends javax.swing.JFrame implements Information{
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Welcome");
 
-        jLabel2.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("btbtt");
+        userName.setFont(new java.awt.Font("MV Boli", 1, 24)); // NOI18N
+        userName.setForeground(new java.awt.Color(255, 255, 255));
+        userName.setText("btbtt");
 
-        jButton3.setBackground(new java.awt.Color(33, 63, 86));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-logout-50_2.png"))); // NOI18N
-        jButton3.setToolTipText("Logout");
-        jButton3.setBorder(null);
-        jButton3.setBorderPainted(false);
-        jButton3.setFocusPainted(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        logoutBtn.setBackground(new java.awt.Color(33, 63, 86));
+        logoutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-logout-50_2.png"))); // NOI18N
+        logoutBtn.setToolTipText("Logout");
+        logoutBtn.setBorder(null);
+        logoutBtn.setBorderPainted(false);
+        logoutBtn.setFocusPainted(false);
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                logoutBtnActionPerformed(evt);
             }
         });
 
@@ -171,8 +161,8 @@ public class Developer extends javax.swing.JFrame implements Information{
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(userName)
+                            .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -181,9 +171,9 @@ public class Developer extends javax.swing.JFrame implements Information{
                 .addGap(77, 77, 77)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(userName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(logoutBtn)
                 .addGap(60, 60, 60))
         );
 
@@ -194,27 +184,27 @@ public class Developer extends javax.swing.JFrame implements Information{
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Developer Dashboard");
 
-        jButton5.setBackground(new java.awt.Color(0, 153, 153));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_close_window_40px.png"))); // NOI18N
-        jButton5.setToolTipText("Logout");
-        jButton5.setBorder(null);
-        jButton5.setBorderPainted(false);
-        jButton5.setFocusPainted(false);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        closeBtn.setBackground(new java.awt.Color(0, 153, 153));
+        closeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8_close_window_40px.png"))); // NOI18N
+        closeBtn.setToolTipText("Logout");
+        closeBtn.setBorder(null);
+        closeBtn.setBorderPainted(false);
+        closeBtn.setFocusPainted(false);
+        closeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                closeBtnActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(0, 153, 153));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-minimize-window-40.png"))); // NOI18N
-        jButton4.setToolTipText("Logout");
-        jButton4.setBorder(null);
-        jButton4.setBorderPainted(false);
-        jButton4.setFocusPainted(false);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        minimizeBtn.setBackground(new java.awt.Color(0, 153, 153));
+        minimizeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-minimize-window-40.png"))); // NOI18N
+        minimizeBtn.setToolTipText("Logout");
+        minimizeBtn.setBorder(null);
+        minimizeBtn.setBorderPainted(false);
+        minimizeBtn.setFocusPainted(false);
+        minimizeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                minimizeBtnActionPerformed(evt);
             }
         });
 
@@ -226,9 +216,9 @@ public class Developer extends javax.swing.JFrame implements Information{
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(minimizeBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5))
+                .addComponent(closeBtn))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,12 +228,12 @@ public class Developer extends javax.swing.JFrame implements Information{
                 .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4))
+                    .addComponent(closeBtn)
+                    .addComponent(minimizeBtn))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        Table1.setModel(new javax.swing.table.DefaultTableModel(
+        bugsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -266,13 +256,13 @@ public class Developer extends javax.swing.JFrame implements Information{
                 return canEdit [columnIndex];
             }
         });
-        Table1.getTableHeader().setReorderingAllowed(false);
-        Table1.addMouseListener(new java.awt.event.MouseAdapter() {
+        bugsTable.getTableHeader().setReorderingAllowed(false);
+        bugsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Table1MouseClicked(evt);
+                bugsTableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(Table1);
+        jScrollPane1.setViewportView(bugsTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -307,69 +297,67 @@ public class Developer extends javax.swing.JFrame implements Information{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table1MouseClicked
-        DefaultTableModel model;
-        model = (DefaultTableModel)Table1.getModel();
-    int  index = Table1.getSelectedRow();
-
-  //reading the data from the table
-    String ProjectName = model.getValueAt(index, 0).toString();
-    int BugId = Integer.parseInt(model.getValueAt(index, 1).toString());
-    String BugName = model.getValueAt(index, 2).toString();
-    String BugType = model.getValueAt(index, 3).toString();
-    String Priorty = model.getValueAt(index, 4).toString();
-    String Statue = model.getValueAt(index, 5).toString();
-    String DeveloperName = model.getValueAt(index, 6).toString();
-    String BugDes = "";
-   // end reading
-   // Reading the image to put it into the label
-        BufferedImage img = null;
+    private void bugsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bugsTableMouseClicked
         try {
-            img = ImageIO.read(new File("imgs\\" + BugId + ".png"));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        Image dimg = img.getScaledInstance(832, 355, Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(dimg);
-        // end of reading 
-         //search for bugDes
-           try{
-        DataBase db = new DataBase();           
-            String sql = "SELECT BugDetails FROM bugs WHERE BugId = " +  BugId;
-            ResultSet rs = db.Select_Query(sql);
-            while(rs.next())
-            {
-               BugDes = rs.getString("BugDetails");
-            } 
-        } catch (SQLException | ClassNotFoundException ex) {
+            readData();
+            updateBug = new BugUpdater(bugId,myuser);
+            openBugDetails();
+            setBugDetails();
+        } catch (NumberFormatException | IOException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Developer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //end 
-    Update SC = new Update(BugId,myuser);
-    SC.setVisible(true);
-    SC.pack();
-    SC.setLocationRelativeTo(null);
-    SC.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    //Sending data to the other form
-    SC.Developer.setText(DeveloperName);
-    SC.ProjectName.setText(ProjectName);
-    SC.BugName.setText(BugName);
-    SC.BugType.setText(BugType);
-    SC.Priorty.setText(Priorty);
-    SC.Statue.setText(Statue);
-    SC.BugDes.setText(BugDes);
-    SC.pic1.setIcon(imageIcon);
-    // end sending
-    }//GEN-LAST:event_Table1MouseClicked
+    }//GEN-LAST:event_bugsTableMouseClicked
+    private void openBugDetails() throws NumberFormatException {     
+        
+        updateBug.setVisible(true);
+        updateBug.pack();
+        updateBug.setLocationRelativeTo(null);
+        updateBug.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void setBugDetails() {
+    updateBug.developerText.setText(developerName);
+    updateBug.projectNameText.setText(projectName);
+    updateBug.bugNameText.setText(bugName);
+    updateBug.bugTypeText.setText(bugType);
+    updateBug.priortyText.setText(priorty);
+    updateBug.statueText.setText(statue);
+    updateBug.bugDesText.setText(bugDes);
+    updateBug.pic1.setIcon(imageIcon);
+    }
+
+    private void readData() throws NumberFormatException, IOException, SQLException, ClassNotFoundException {
+        DefaultTableModel model;
+        model = (DefaultTableModel)bugsTable.getModel();
+        int  index = bugsTable.getSelectedRow();
+        projectName = model.getValueAt(index, 0).toString();
+        bugId = Integer.parseInt(model.getValueAt(index, 1).toString());
+        bugName = model.getValueAt(index, 2).toString();
+        bugType = model.getValueAt(index, 3).toString();
+        priorty = model.getValueAt(index, 4).toString();
+        statue = model.getValueAt(index, 5).toString();
+        developerName = model.getValueAt(index, 6).toString();
+        
+         BufferedImage img = null;
+         img = ImageIO.read(new File("imgs\\" + bugId + ".png"));
+         Image dimg = img.getScaledInstance(832, 355, Image.SCALE_SMOOTH);
+         imageIcon = new ImageIcon(dimg);
+        
+        DataBase db = new DataBase();
+        String sql = "SELECT BugDetails FROM bugs WHERE BugId = " +  bugId;
+        ResultSet rs = db.selectQuery(sql);
+        while(rs.next())
+            bugDes = rs.getString("BugDetails");
+    }
+    
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Are you sure you want to logout", "LOGOUT ?",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
         this.dispose();
-        new login().setVisible(true);
+        new Login().setVisible(true);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         xPress = evt.getX();
@@ -380,17 +368,17 @@ public class Developer extends javax.swing.JFrame implements Information{
         setLocation(evt.getXOnScreen()-xPress,evt.getYOnScreen()-yPress);
     }//GEN-LAST:event_formMouseDragged
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close the program?", "EXIT?",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
         System.exit(0);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_closeBtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void minimizeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeBtnActionPerformed
         setState(Frame.ICONIFIED);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_minimizeBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -408,39 +396,36 @@ public class Developer extends javax.swing.JFrame implements Information{
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Developer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Developer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Developer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Developer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Developer(myuser).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Developer(myuser).setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTable Table1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    public javax.swing.JTable bugsTable;
+    private javax.swing.JButton closeBtn;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton logoutBtn;
+    private javax.swing.JButton minimizeBtn;
+    private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
 }

@@ -41,10 +41,10 @@ public class DataBase {
     
     private final String pass = "Sona1574";
     
-    public int Update_Query(String query) throws SQLException, ClassNotFoundException
+    public int updateQuery(String query) throws SQLException, ClassNotFoundException
     {
        
-        Connection connection = getConnection();
+        connection = getConnection();
      
         statement =   (Statement) connection.createStatement();
         
@@ -57,11 +57,11 @@ public class DataBase {
     
     
     
-    public ResultSet Select_Query(String query) throws SQLException, ClassNotFoundException
+    public ResultSet selectQuery(String query) throws SQLException, ClassNotFoundException
     {
         
         
-        Connection connection = getConnection();
+        connection = getConnection();
        
         if(!connectedToDatabase)
         {
@@ -83,16 +83,16 @@ public class DataBase {
         {
            
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            Connection con = DriverManager.getConnection(DATABASE_URL, user, pass);
+            connection = DriverManager.getConnection(DATABASE_URL, user, pass);
             
                connectedToDatabase = true;
             
-            return con;
+            return connection;
         
         }
         catch(SQLException e )
@@ -108,7 +108,7 @@ public class DataBase {
     
     public void displayAll(String query)
     {
-          Connection connection = getConnection();
+          Connection conn = getConnection();
           
            statement = null;
            
@@ -120,7 +120,7 @@ public class DataBase {
            
         try {
             
-            statement = connection.createStatement();
+            statement = conn.createStatement();
             
             resultSet = statement.executeQuery(query);
           
