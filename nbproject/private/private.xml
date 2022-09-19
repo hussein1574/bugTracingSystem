@@ -3,7 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Admin/add_user.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Developer/Developer.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Developer/BugUpdater.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/GeneralView.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Admin/UserUpdater.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Admin/Admin.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Admin/UserAdder.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Login/Login.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Admin/UserDeleter.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Name.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Mailer.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/DataBase.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Tester/TesterView.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/EditAccounts.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Users.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/bugData.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Data.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Tester/Tester.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Tester/BugSubmiter.java</file>
+            <file>file:/C:/Users/husse/Downloads/Compressed/Bug_Tracing_System/Bug_Tracing_System(Source_Code)/src/bug_tracing_system/Main.java</file>
         </group>
     </open-files>
 </project-private>
