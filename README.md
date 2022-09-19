@@ -18,5 +18,5 @@ This system is used to make the communication between the tester and the develop
 [jimmy-url]: https://github.com/GReeDYBOY1
 [hussein]: https://img.shields.io/badge/Contributor-Hussein%20Medhat-blue
 [hussein-url]: https://github.com/hussein1574
-[contributors-shield]: https://img.shields.io/github/contributors/xS4yk0x/Obstacle-Avoiding-Robot-using-Q-Learning-Atmega328-Embedded-C.svg?style=for-the-badge
-[contributors-url]: https://github.com/xS4yk0x/Obstacle-Avoiding-Robot-using-Q-Learning-Atmega328-Embedded-C/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/hussein1574/bugTracingSystem.svg?style=for-the-badge
+[contributors-url]: https://github.com//hussein1574/bugTracingSystem/graphs/contributors
