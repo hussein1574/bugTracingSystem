@@ -27,25 +27,6 @@ If you want to contribute to this project, you can:
 - Fork the repository and make changes.
 - Submit pull requests.
 
-## [![Contributors][contributors-shield]][contributors-url]
-<br/>
-[![hussein][hussein]][hussein-url]
-<br/>
-[![jimmy][jimmy]][jimmy-url]
-<br/>
-[![John][john]][john-url]
-
-<!-- MARKDOWN LINKS & IMAGES -->
-
-[john]: https://img.shields.io/badge/Contributor-John%20Salama-blue
-[john-url]: https://github.com/John-Salama
-[jimmy]: https://img.shields.io/badge/Contributor-Ahmed%20Gamal-blue
-[jimmy-url]: https://github.com/GReeDYBOY1
-[hussein]: https://img.shields.io/badge/Contributor-Hussein%20Medhat-blue
-[hussein-url]: https://github.com/hussein1574
-[contributors-shield]: https://img.shields.io/github/contributors/hussein1574/bugTracingSystem.svg?style=for-the-badge
-[contributors-url]: https://github.com//hussein1574/bugTracingSystem/graphs/contributors
-
 
 ## License
 
