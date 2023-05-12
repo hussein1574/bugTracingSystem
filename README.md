@@ -27,7 +27,7 @@ If you want to contribute to this project, you can:
 - Fork the repository and make changes.
 - Submit pull requests.
 
-[![Contributors][contributors-shield]][contributors-url]
+## [![Contributors][contributors-shield]][contributors-url]
 <br/>
 [![hussein][hussein]][hussein-url]
 <br/>
@@ -46,7 +46,10 @@ If you want to contribute to this project, you can:
 [contributors-shield]: https://img.shields.io/github/contributors/hussein1574/bugTracingSystem.svg?style=for-the-badge
 [contributors-url]: https://github.com//hussein1574/bugTracingSystem/graphs/contributors
 
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+
 
